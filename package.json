@@ -1,13 +1,20 @@
 {
   "name": "vant-element-notice",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A unified dialog API for Vue 2 projects using Element UI or Vant UI",
   "private": false,
   "main": "dist/vant-element-notice.common.js",
-  "module": "dist/vant-element-notice.esm.js",
+  "module": "src/lib/index.js",
   "unpkg": "dist/vant-element-notice.umd.min.js",
   "jsdelivr": "dist/vant-element-notice.umd.min.js",
   "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./src/lib/index.js",
+      "require": "./dist/vant-element-notice.common.js",
+      "default": "./dist/vant-element-notice.common.js"
+    }
+  },
   "files": [
     "dist",
     "src/lib",
@@ -17,7 +24,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build:lib": "cross-env LIBRARY_BUILD=true vue-cli-service build --target lib --name vant-element-notice src/lib/index.js",
+    "build:lib": "cross-env LIBRARY_BUILD=true vue-cli-service build --target lib --name vant-element-notice --formats commonjs,umd,umd-min --dest dist src/lib/index.js",
     "prepublishOnly": "npm run build:lib",
     "example": "vue-cli-service serve examples/main.js",
     "test": "jest",

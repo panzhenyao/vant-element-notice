@@ -3,46 +3,46 @@
 [![npm version](https://img.shields.io/npm/v/vant-element-notice.svg)](https://www.npmjs.com/package/vant-element-notice)
 [![license](https://img.shields.io/npm/l/vant-element-notice.svg)](https://github.com/panzhenyao/vant-element-notice/blob/master/LICENSE)
 
-中文 | [English](README.en.md)
+[中文](README.zh.md) | English
 
-一个统一的对话框 API，用于在 Vue 2 项目中无缝集成 Element UI 和 Vant UI 框架的弹框功能。
+A unified dialog API for seamlessly integrating Element UI and Vant UI dialog functionality in Vue 2 projects.
 
-## 功能特点
+## Features
 
-- 统一的 API 接口：无论使用 Element UI 还是 Vant UI，都可以使用相同的函数调用方式
-- 自动检测框架：根据项目中引入的 UI 框架自动选择对应的实现
-- 支持链式调用和 Promise：所有对话框方法都返回 Promise，支持现代 JavaScript 异步编程模式
-- 配置灵活：可以使用简单字符串或详细配置对象
+- Unified API interface: Use the same function call method regardless of whether you're using Element UI or Vant UI
+- Automatic framework detection: Automatically selects the corresponding implementation based on the UI framework imported in your project
+- Supports chaining and Promises: All dialog methods return Promises, supporting modern JavaScript asynchronous programming patterns
+- Flexible configuration: Can use simple strings or detailed configuration objects
 
-## 安装
+## Installation
 
 ```bash
-# 使用 npm 安装
+# Install with npm
 npm install vant-element-notice --save
 
-# 或使用 yarn 安装
+# Or install with yarn
 yarn add vant-element-notice
 ```
 
-## 使用方法
+## Usage
 
-在 Vue 项目中引入并注册插件：
+Import and register the plugin in your Vue project:
 
 ```js
 import Vue from 'vue'
 import App from './App.vue'
 
-// 引入 Element UI 或 Vant UI (二选一)
+// Import Element UI or Vant UI (choose one)
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
-// 或者
+// Or
 // import Vant from 'vant'
 // import 'vant/lib/index.css'
 // Vue.use(Vant)
 
-// 引入 vant-element-notice
+// Import vant-element-notice
 import vantElementNotice from 'vant-element-notice'
 Vue.use(vantElementNotice)
 
@@ -51,18 +51,18 @@ new Vue({
 }).$mount('#app')
 ```
 
-### 指定使用的 UI 框架
+### Specify UI Framework
 
-默认情况下，vant-element-notice 会自动检测项目中使用的 UI 框架（基于 `Vue.prototype.$ELEMENT` 是否存在）。
-但你也可以在注册插件时明确指定要使用的框架：
+By default, vant-element-notice automatically detects the UI framework used in your project (based on whether `Vue.prototype.$ELEMENT` exists).
+However, you can also explicitly specify which framework to use when registering the plugin:
 
 ```js
-// 使用配置选项指定 UI 框架
+// Use configuration options to specify UI framework
 Vue.use(vantElementNotice, {
-  // 显式指定使用的 UI 框架: 'element' 或 'vant'
+  // Explicitly specify the UI framework to use: 'element' or 'vant'
   framework: 'element', 
   
-  // 可选: 启用或禁用特定功能
+  // Optional: Enable or disable specific features
   features: {
     message: true,
     alert: true,
@@ -71,18 +71,102 @@ Vue.use(vantElementNotice, {
 })
 ```
 
-## 示例
+## API Reference
 
-获取更多示例和完整文档，请查看 [demo 示例](https://github.com/panzhenyao/vant-element-notice/tree/master/examples)。
+### Message Notification
 
-## API 文档
+```js
+// Basic message
+this.$utils.message('This is a message')
 
-详细的 API 文档请参见 [API 文档](https://github.com/panzhenyao/vant-element-notice/blob/master/docs/API.md)。
+// With options
+this.$utils.message({
+  message: 'Operation successful',
+  type: 'success',
+  duration: 3000
+})
 
-## 开发者
+// Shorthand methods
+this.$utils.message.success('Success message')
+this.$utils.message.warning('Warning message')
+this.$utils.message.error('Error message')
+this.$utils.message.info('Info message')
+```
 
-此项目正在积极开发中，欢迎提交问题或贡献代码。
+### Alert Dialog
 
-## 许可证
+```js
+// Basic alert
+this.$utils.alert('This is an alert')
 
-[MIT](LICENSE)
+// With title
+this.$utils.alert('Alert content', 'Alert Title')
+
+// With custom confirm button text
+this.$utils.alert('Alert content', 'Alert Title', 'I understand')
+
+// Using Promise
+this.$utils.alert('Operation completed')
+  .then(() => {
+    console.log('User confirmed the alert')
+  })
+
+// With full options
+this.$utils.alert({
+  title: 'Custom Title',
+  message: 'This is a custom alert content',
+  confirmButtonText: 'Got it',
+  callback: (action) => {
+    console.log(`Alert closed with action: ${action}`)
+  }
+})
+```
+
+### Confirm Dialog
+
+```js
+// Basic confirm
+this.$utils.confirm('Are you sure you want to proceed?')
+  .then(() => {
+    // User clicked confirm button
+    this.$utils.message.success('Operation confirmed')
+  })
+  .catch(() => {
+    // User clicked cancel button
+    this.$utils.message.info('Operation cancelled')
+  })
+
+// With title
+this.$utils.confirm('Are you sure you want to delete this item?', 'Delete Confirmation')
+
+// With full options
+this.$utils.confirm({
+  title: 'Delete Confirmation',
+  message: 'This action will permanently delete the file. Continue?',
+  confirmButtonText: 'Delete',
+  cancelButtonText: 'Cancel',
+  type: 'warning'
+})
+  .then(() => {
+    this.$utils.message.success('Deleted successfully')
+  })
+  .catch(() => {
+    this.$utils.message.info('Delete cancelled')
+  })
+```
+
+## Examples
+
+For more examples and complete documentation, please see the [demo examples](https://github.com/panzhenyao/vant-element-notice/tree/master/examples).
+
+## API Documentation
+
+For detailed API documentation, please refer to the [API Documentation](https://github.com/panzhenyao/vant-element-notice/blob/master/docs/API.md).
+
+## Developers
+
+This project is actively being developed. Issues and contributions are welcome.
+
+## License
+
+[MIT](LICENSE) 
