@@ -1,0 +1,34 @@
+# Development files
+.git
+.github
+.gitignore
+.editorconfig
+.browserslistrc
+.eslintrc.js
+.eslintignore
+.env*
+*.log
+
+# Build files
+node_modules
+coverage
+.nyc_output
+.DS_Store
+
+# Example and docs
+examples
+public
+src/components
+src/plugins
+src/assets
+src/App.vue
+src/main.js
+
+# Config files
+babel.config.js
+vue.config.js
+jsconfig.json
+*.config.js
+
+# Tests
+tests 
