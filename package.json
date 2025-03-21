@@ -74,10 +74,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/vant-element-notice.git"
+    "url": "git+https://github.com/panzhenyao/vant-element-notice.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/vant-element-notice/issues"
+    "url": "https://github.com/panzhenyao/vant-element-notice/issues"
   },
-  "homepage": "https://github.com/yourusername/vant-element-notice#readme"
+  "homepage": "https://github.com/panzhenyao/vant-element-notice#readme"
 }

@@ -1,7 +1,7 @@
 # vant-element-notice
 
 [![npm version](https://img.shields.io/npm/v/vant-element-notice.svg)](https://www.npmjs.com/package/vant-element-notice)
-[![license](https://img.shields.io/npm/l/vant-element-notice.svg)](https://github.com/yourusername/vant-element-notice/blob/master/LICENSE)
+[![license](https://img.shields.io/npm/l/vant-element-notice.svg)](https://github.com/panzhenyao/vant-element-notice/blob/master/LICENSE)
 
 [中文](README.md) | English
 
@@ -73,11 +73,11 @@ Vue.use(vantElementNotice, {
 
 ## Examples
 
-For more examples and complete documentation, please see the [demo examples](https://github.com/yourusername/vant-element-notice/tree/master/examples).
+For more examples and complete documentation, please see the [demo examples](https://github.com/panzhenyao/vant-element-notice/tree/master/examples).
 
 ## API Documentation
 
-For detailed API documentation, please refer to the [API Documentation](https://github.com/yourusername/vant-element-notice/blob/master/docs/API.md).
+For detailed API documentation, please refer to the [API Documentation](https://github.com/panzhenyao/vant-element-notice/blob/master/docs/API.md).
 
 ## Developers
 

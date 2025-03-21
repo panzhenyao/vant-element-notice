@@ -8,7 +8,7 @@
 
 1. 克隆仓库
 ```bash
-git clone https://github.com/yourusername/vant-element-notice.git
+git clone https://github.com/panzhenyao/vant-element-notice.git
 cd vant-element-notice
 ```
 

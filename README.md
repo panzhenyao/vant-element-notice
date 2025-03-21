@@ -1,7 +1,7 @@
 # vant-element-notice
 
 [![npm version](https://img.shields.io/npm/v/vant-element-notice.svg)](https://www.npmjs.com/package/vant-element-notice)
-[![license](https://img.shields.io/npm/l/vant-element-notice.svg)](https://github.com/yourusername/vant-element-notice/blob/master/LICENSE)
+[![license](https://img.shields.io/npm/l/vant-element-notice.svg)](https://github.com/panzhenyao/vant-element-notice/blob/master/LICENSE)
 
 中文 | [English](README.en.md)
 
@@ -73,11 +73,11 @@ Vue.use(vantElementNotice, {
 
 ## 示例
 
-获取更多示例和完整文档，请查看 [demo 示例](https://github.com/yourusername/vant-element-notice/tree/master/examples)。
+获取更多示例和完整文档，请查看 [demo 示例](https://github.com/panzhenyao/vant-element-notice/tree/master/examples)。
 
 ## API 文档
 
-详细的 API 文档请参见 [API 文档](https://github.com/yourusername/vant-element-notice/blob/master/docs/API.md)。
+详细的 API 文档请参见 [API 文档](https://github.com/panzhenyao/vant-element-notice/blob/master/docs/API.md)。
 
 ## 开发者
 
