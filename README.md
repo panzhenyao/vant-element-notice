@@ -14,6 +14,11 @@ A unified dialog API for seamlessly integrating Element UI and Vant UI dialog fu
 - Supports chaining and Promises: All dialog methods return Promises, supporting modern JavaScript asynchronous programming patterns
 - Flexible configuration: Can use simple strings or detailed configuration objects
 
+## Requirements
+
+- Vue 2.x
+- Element UI 2.x or Vant UI 2.x (or both)
+
 ## Installation
 
 ```bash
@@ -22,6 +27,13 @@ npm install vant-element-notice --save
 
 # Or install with yarn
 yarn add vant-element-notice
+
+# You also need to install at least one of these UI frameworks
+# Element UI
+npm install element-ui@^2.0.0 --save
+
+# Or Vant
+npm install vant@^2.0.0 --save
 ```
 
 ## Usage
@@ -75,6 +87,8 @@ Vue.use(vantElementNotice, {
 
 ### Message Notification
 
+Basic usage:
+
 ```js
 // Basic message
 this.$utils.message('This is a message')
@@ -93,7 +107,24 @@ this.$utils.message.error('Error message')
 this.$utils.message.info('Info message')
 ```
 
+Advanced configuration:
+
+```js
+this.$utils.message({
+  message: 'This is a message',
+  type: 'success',
+  duration: 3000,        // Display duration in milliseconds
+  showClose: true,       // Whether to show close button (Element UI only)
+  center: true,          // Center the message (Element UI only)
+  onClose: () => {       // Callback when closed
+    console.log('Message closed')
+  }
+})
+```
+
 ### Alert Dialog
+
+Basic usage:
 
 ```js
 // Basic alert
@@ -110,12 +141,19 @@ this.$utils.alert('Operation completed')
   .then(() => {
     console.log('User confirmed the alert')
   })
+```
 
+Advanced configuration:
+
+```js
 // With full options
 this.$utils.alert({
   title: 'Custom Title',
   message: 'This is a custom alert content',
   confirmButtonText: 'Got it',
+  type: 'warning',               // Type: success, warning, info, error (Element UI only)
+  showClose: true,               // Whether to show close icon
+  closeOnClickModal: false,      // Whether to close when clicking on the mask
   callback: (action) => {
     console.log(`Alert closed with action: ${action}`)
   }
@@ -123,6 +161,8 @@ this.$utils.alert({
 ```
 
 ### Confirm Dialog
+
+Basic usage:
 
 ```js
 // Basic confirm
@@ -138,14 +178,21 @@ this.$utils.confirm('Are you sure you want to proceed?')
 
 // With title
 this.$utils.confirm('Are you sure you want to delete this item?', 'Delete Confirmation')
+```
 
+Advanced configuration:
+
+```js
 // With full options
 this.$utils.confirm({
   title: 'Delete Confirmation',
   message: 'This action will permanently delete the file. Continue?',
   confirmButtonText: 'Delete',
   cancelButtonText: 'Cancel',
-  type: 'warning'
+  type: 'warning',              // Type: success, warning, info, error (Element UI only)
+  showClose: true,              // Whether to show close icon
+  closeOnClickModal: false,     // Whether to close when clicking on the mask
+  showCancelButton: true        // Whether to show cancel button
 })
   .then(() => {
     this.$utils.message.success('Deleted successfully')
@@ -155,6 +202,50 @@ this.$utils.confirm({
   })
 ```
 
+## Framework Compatibility Table
+
+This table shows the parameter mapping between the unified API and the native APIs of each UI framework:
+
+### Message Parameters Mapping
+
+| Unified API Parameter | Element UI Parameter | Vant Parameter | Description |
+|--------------|----------------|-----------|------|
+| message | message | message | Message content |
+| type | type | special handling* | Message type: success, warning, error, info |
+| duration | duration | duration | Display duration (milliseconds) |
+| showClose | showClose | not supported | Whether to show close button |
+| center | center | not supported | Whether to center the message |
+| onClose | onClose | onClose | Callback when closed |
+
+\* In Vant, type mapping: success='success', warning='text', error='fail', info='text'
+
+### Alert Parameters Mapping
+
+| Unified API Parameter | Element UI Parameter | Vant Parameter | Description |
+|--------------|----------------|-----------|------|
+| title | title | title | Dialog title |
+| message | message | message | Dialog content |
+| confirmButtonText | confirmButtonText | confirmButtonText | Confirm button text |
+| type | type | not supported | Dialog type (success/warning/info/error) |
+| showClose | showClose | not supported | Whether to show close icon |
+| closeOnClickModal | closeOnClickModal | closeOnClickOverlay | Close when clicking mask |
+| closeOnPressEscape | closeOnPressEscape | not supported | Close when pressing ESC |
+| callback | callback | via Promise | Callback when closed |
+
+### Confirm Parameters Mapping
+
+| Unified API Parameter | Element UI Parameter | Vant Parameter | Description |
+|--------------|----------------|-----------|------|
+| title | title | title | Dialog title |
+| message | message | message | Dialog content |
+| confirmButtonText | confirmButtonText | confirmButtonText | Confirm button text |
+| cancelButtonText | cancelButtonText | cancelButtonText | Cancel button text |
+| type | type | not supported | Dialog type (success/warning/info/error) |
+| showClose | showClose | showCancelButton | Whether to show close icon |
+| showCancelButton | showCancelButton | showCancelButton | Whether to show cancel button |
+| closeOnClickModal | closeOnClickModal | closeOnClickOverlay | Close when clicking mask |
+| closeOnPressEscape | closeOnPressEscape | not supported | Close when pressing ESC |
+
 ## Examples
 
 For more examples and complete documentation, please see the [demo examples](https://github.com/panzhenyao/vant-element-notice/tree/master/examples).
@@ -162,6 +253,11 @@ For more examples and complete documentation, please see the [demo examples](htt
 ## API Documentation
 
 For detailed API documentation, please refer to the [API Documentation](https://github.com/panzhenyao/vant-element-notice/blob/master/docs/API.md).
+
+## Developer Notes
+
+1. It's not recommended to use the native dialog methods of Element UI and Vant in the same project. Always use the methods provided by this tool for consistency.
+2. This library requires Vue 2.x and either Element UI 2.x or Vant 2.x (or both).
 
 ## Developers
 

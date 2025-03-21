@@ -14,6 +14,11 @@
 - 支持链式调用和 Promise：所有对话框方法都返回 Promise，支持现代 JavaScript 异步编程模式
 - 配置灵活：可以使用简单字符串或详细配置对象
 
+## 环境要求
+
+- Vue 2.x
+- Element UI 2.x 或 Vant UI 2.x (或两者都有)
+
 ## 安装
 
 ```bash
@@ -22,6 +27,13 @@ npm install vant-element-notice --save
 
 # 或使用 yarn 安装
 yarn add vant-element-notice
+
+# 你还需要安装至少一个这些 UI 框架
+# Element UI
+npm install element-ui@^2.0.0 --save
+
+# 或 Vant
+npm install vant@^2.0.0 --save
 ```
 
 ## 使用方法
@@ -75,6 +87,8 @@ Vue.use(vantElementNotice, {
 
 ### 消息提示 (Message)
 
+基本使用：
+
 ```js
 // 基本消息
 this.$utils.message('这是一条消息')
@@ -93,7 +107,24 @@ this.$utils.message.error('错误消息')
 this.$utils.message.info('提示消息')
 ```
 
+高级配置：
+
+```js
+this.$utils.message({
+  message: '这是一条消息提示',
+  type: 'success',
+  duration: 3000,        // 显示时间，单位毫秒
+  showClose: true,       // 是否显示关闭按钮 (Element UI 有效)
+  center: true,          // 是否居中显示 (Element UI 有效)
+  onClose: () => {       // 关闭时的回调函数
+    console.log('消息已关闭')
+  }
+})
+```
+
 ### 警告框 (Alert)
+
+基本使用：
 
 ```js
 // 基本警告框
@@ -110,12 +141,19 @@ this.$utils.alert('操作已完成')
   .then(() => {
     console.log('用户确认了警告框')
   })
+```
 
+高级配置：
+
+```js
 // 完整选项
 this.$utils.alert({
   title: '自定义标题',
   message: '这是一个自定义警告框内容',
   confirmButtonText: '我知道了',
+  type: 'warning',               // 类型：success, warning, info, error (Element UI 有效)
+  showClose: true,               // 是否显示关闭图标
+  closeOnClickModal: false,      // 是否可以点击蒙层关闭
   callback: (action) => {
     console.log(`警告框已关闭，操作: ${action}`)
   }
@@ -123,6 +161,8 @@ this.$utils.alert({
 ```
 
 ### 确认框 (Confirm)
+
+基本使用：
 
 ```js
 // 基本确认框
@@ -138,14 +178,21 @@ this.$utils.confirm('确定要执行此操作吗？')
 
 // 带标题
 this.$utils.confirm('确定要删除此项吗？', '删除确认')
+```
 
+高级配置：
+
+```js
 // 完整选项
 this.$utils.confirm({
   title: '删除确认',
   message: '此操作将永久删除该文件, 是否继续?',
   confirmButtonText: '确定删除',
   cancelButtonText: '取消',
-  type: 'warning'
+  type: 'warning',              // 类型：success, warning, info, error (Element UI 有效)
+  showClose: true,              // 是否显示关闭图标
+  closeOnClickModal: false,     // 是否可以点击蒙层关闭
+  showCancelButton: true        // 是否显示取消按钮
 })
   .then(() => {
     this.$utils.message.success('删除成功')
@@ -155,6 +202,50 @@ this.$utils.confirm({
   })
 ```
 
+## 框架兼容性对照表
+
+此表显示了统一 API 与各 UI 框架原生 API 之间的参数映射关系：
+
+### Message 消息提示参数映射
+
+| 统一 API 参数 | Element UI 参数 | Vant 参数 | 说明 |
+|--------------|----------------|-----------|------|
+| message | message | message | 消息内容 |
+| type | type | 特殊处理* | 消息类型：success, warning, error, info |
+| duration | duration | duration | 显示时间（毫秒） |
+| showClose | showClose | 不支持 | 是否显示关闭按钮 |
+| center | center | 不支持 | 是否居中显示 |
+| onClose | onClose | onClose | 关闭时的回调函数 |
+
+\* Vant中type映射：success='success', warning='text', error='fail', info='text'
+
+### Alert 警告框参数映射
+
+| 统一 API 参数 | Element UI 参数 | Vant 参数 | 说明 |
+|--------------|----------------|-----------|------|
+| title | title | title | 对话框标题 |
+| message | message | message | 对话框内容 |
+| confirmButtonText | confirmButtonText | confirmButtonText | 确认按钮文字 |
+| type | type | 不支持 | 对话框类型(success/warning/info/error) |
+| showClose | showClose | 不支持 | 是否显示关闭图标 |
+| closeOnClickModal | closeOnClickModal | closeOnClickOverlay | 点击遮罩是否关闭 |
+| closeOnPressEscape | closeOnPressEscape | 不支持 | 是否可通过按下ESC关闭 |
+| callback | callback | 通过Promise | 关闭时的回调 |
+
+### Confirm 确认框参数映射
+
+| 统一 API 参数 | Element UI 参数 | Vant 参数 | 说明 |
+|--------------|----------------|-----------|------|
+| title | title | title | 对话框标题 |
+| message | message | message | 对话框内容 |
+| confirmButtonText | confirmButtonText | confirmButtonText | 确认按钮文字 |
+| cancelButtonText | cancelButtonText | cancelButtonText | 取消按钮文字 |
+| type | type | 不支持 | 对话框类型(success/warning/info/error) |
+| showClose | showClose | showCancelButton | 是否显示关闭图标 |
+| showCancelButton | showCancelButton | showCancelButton | 是否显示取消按钮 |
+| closeOnClickModal | closeOnClickModal | closeOnClickOverlay | 点击遮罩是否关闭 |
+| closeOnPressEscape | closeOnPressEscape | 不支持 | 是否可通过按下ESC关闭 |
+
 ## 示例
 
 获取更多示例和完整文档，请查看 [demo 示例](https://github.com/panzhenyao/vant-element-notice/tree/master/examples)。
@@ -162,6 +253,11 @@ this.$utils.confirm({
 ## API 文档
 
 详细的 API 文档请参见 [API 文档](https://github.com/panzhenyao/vant-element-notice/blob/master/docs/API.md)。
+
+## 开发者注意事项
+
+1. 在同一项目中不建议同时使用 Element UI 和 Vant 的原生对话框方法，应统一使用此工具提供的方法
+2. 此库需要 Vue 2.x 和 Element UI 2.x 或 Vant 2.x (或两者都有)
 
 ## 开发者
 
