@@ -37,11 +37,12 @@ const vantElementNotice = {
     const enabledFeatures = { ...features, ...(options.features || {}) }
     
     // 设置UI框架偏好，可以在options中指定，否则自动检测
-    const framework = options.framework || (Vue.prototype.$ELEMENT ? 'element' : 'vant')
+    const framework = options.framework || (Vue.prototype.$message ? 'element' : 'vant')
     
     // 将框架配置添加到Vue原型，以便在各个工具函数中使用
     Vue.prototype.$vantElementConfig = {
-      framework
+      framework,
+      ...options // 保留用户传入的其他配置
     }
     
     // 创建 utils 对象
