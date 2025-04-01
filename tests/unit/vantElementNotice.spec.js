@@ -11,7 +11,7 @@ describe('vantElementNotice Framework Detection', () => {
 
   it('should detect Element UI when present', () => {
     // 模拟 Element UI 存在
-    VueInstance.prototype.$ELEMENT = { size: 'small' }
+    VueInstance.prototype.$message = function() {}
     
     VueInstance.use(vantElementNotice)
     const instance = new VueInstance()
@@ -22,7 +22,7 @@ describe('vantElementNotice Framework Detection', () => {
 
   it('should default to Vant when no UI framework is detected', () => {
     // 确保没有 Element UI
-    VueInstance.prototype.$ELEMENT = undefined
+    VueInstance.prototype.$message = undefined
     
     VueInstance.use(vantElementNotice)
     const instance = new VueInstance()
@@ -33,7 +33,7 @@ describe('vantElementNotice Framework Detection', () => {
 
   it('should respect explicit framework option over detection', () => {
     // 即使有 Element UI，也应该使用明确指定的框架
-    VueInstance.prototype.$ELEMENT = { size: 'small' }
+    VueInstance.prototype.$message = function() {}
     
     VueInstance.use(vantElementNotice, { framework: 'vant' })
     const instance = new VueInstance()
