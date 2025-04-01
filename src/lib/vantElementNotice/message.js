@@ -63,7 +63,7 @@ export function message(options) {
   }
   
   // 从配置中获取UI框架，如果没有配置则回退到自动检测
-  const framework = Vue.prototype.$vantElementConfig?.framework || (Vue.prototype.$message ? 'element' : 'vant')
+  const framework = (Vue.prototype.$vantElementConfig && Vue.prototype.$vantElementConfig.framework) || (Vue.prototype.$message ? 'element' : 'vant')
   
   if (framework === 'element') {
     const elementOptions = {}
