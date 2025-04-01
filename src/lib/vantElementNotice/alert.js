@@ -6,41 +6,14 @@
 import Vue from 'vue'
 
 /**
- * 统一 API 与框架特定选项之间的默认选项映射
- */
-const optionsMapping = {
-  element: {
-    title: 'title',
-    message: 'message',
-    confirmButtonText: 'confirmButtonText',
-    type: 'type',
-    showClose: 'showClose',
-    closeOnClickModal: 'closeOnClickModal',
-    closeOnPressEscape: 'closeOnPressEscape',
-    callback: 'callback'
-  },
-  vant: {
-    title: 'title',
-    message: 'message',
-    confirmButtonText: 'confirmButtonText',
-    type: null, // Vant 不直接支持
-    showClose: null, // Vant 中没有直接映射
-    closeOnClickModal: 'closeOnClickOverlay',
-    closeOnPressEscape: null, // Vant 不支持
-    callback: null // 在 Vant 中通过 Promise 处理
-  }
-}
-
-/**
  * 使用配置的 UI 框架显示警告对话框
  * @param {Object|String} options - 警告选项或消息字符串
  * @param {String} options.title - 对话框标题
  * @param {String} options.message - 对话框消息内容
  * @param {String} options.confirmButtonText - 确认按钮的文本
  * @param {String} options.type - 对话框类型（仅限 element-ui：success, warning, info, error）
- * @param {Boolean} options.showClose - 是否显示关闭图标
- * @param {Function} options.callback - 关闭警告时的回调函数（element-ui 风格）
- * @returns {Promise} 当警告被确认时解析的 Promise
+ * @param {Function} options.callback - 点击按钮时的回调函数
+ * @returns {Promise} 确认时解析的 Promise
  */
 export function alert(options, title = '', confirmButtonText = '') {
   // 允许不同的参数模式
@@ -53,42 +26,31 @@ export function alert(options, title = '', confirmButtonText = '') {
   }
   
   // 从配置中获取UI框架，如果没有配置则回退到自动检测
-  const framework = Vue.prototype.$vantElementConfig?.framework || (Vue.prototype.$ELEMENT ? 'element' : 'vant')
+  const framework = Vue.prototype.$vantElementConfig && Vue.prototype.$vantElementConfig.framework || (Vue.prototype.$ELEMENT ? 'element' : 'vant')
   
   if (framework === 'element') {
-    const elementOptions = {}
+    const elementOptions = {
+      type: options.type,
+      confirmButtonText: options.confirmButtonText || '确定',
+      callback: options.callback
+    }
     
-    // 将统一选项映射到 Element UI 特定选项
-    Object.keys(options).forEach(key => {
-      const mappedKey = optionsMapping.element[key]
-      if (mappedKey) {
-        elementOptions[mappedKey] = options[key]
-      }
-    })
-    
-    // 返回 Promise 以与 Vant 保持一致
-    return new Promise((resolve) => {
-      Vue.prototype.$alert(options.message, options.title, {
-        ...elementOptions,
-        callback: (action) => {
-          if (options.callback) {
-            options.callback(action)
-          }
-          resolve(action)
-        }
-      })
-    })
+    return Vue.prototype.$alert(options.message, options.title || '', elementOptions)
   } else {
     // 对于 Vant Dialog
-    const vantOptions = {}
+    const vantOptions = {
+      title: options.title || '提示',
+      message: options.message,
+      confirmButtonText: options.confirmButtonText || '确定',
+      showCancelButton: false
+    }
     
-    // 将统一选项映射到 Vant 特定选项
-    Object.keys(options).forEach(key => {
-      const mappedKey = optionsMapping.vant[key]
-      if (mappedKey) {
-        vantOptions[mappedKey] = options[key]
+    if (options.callback) {
+      vantOptions.beforeClose = (action) => {
+        options.callback(action)
+        return true
       }
-    })
+    }
     
     return Vue.prototype.$dialog.alert(vantOptions)
   }

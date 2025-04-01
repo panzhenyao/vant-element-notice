@@ -28,5 +28,34 @@ module.exports = defineConfig({
         },
       };
     }
+    
+    // 添加 babel-loader 配置，确保输出 ES5 代码
+    const jsRule = config.module.rules.find(rule => rule.test && rule.test.toString().includes('js'));
+    if (jsRule && jsRule.use) {
+      const babelLoaderConfig = jsRule.use.find(use => use.loader && use.loader.includes('babel-loader'));
+      if (babelLoaderConfig) {
+        babelLoaderConfig.options = {
+          ...babelLoaderConfig.options,
+          presets: [
+            ['@babel/preset-env', {
+              useBuiltIns: 'usage',
+              corejs: 3,
+              targets: {
+                browsers: ['> 1%', 'last 2 versions', 'not dead', 'ie >= 11']
+              }
+            }]
+          ]
+        };
+      }
+    }
   },
+  
+  // 确保生成 sourcemap，便于调试
+  productionSourceMap: true,
+  
+  // CSS 配置
+  css: {
+    extract: false, // 不提取 CSS 到单独的文件
+    sourceMap: true
+  }
 });
