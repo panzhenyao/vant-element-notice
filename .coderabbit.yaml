@@ -1,0 +1,22 @@
+language: "zh-CN"
+reviews:
+  profile: "assertive"
+  high_level_summary: true
+  poem: false
+  path_filters:
+    - "!dist/**"
+    - "!node_modules/**"
+    - "!tests/**"
+    - "!**/*.json"
+    - "!**/*.svg"
+    - "!**/*.png"
+    - "!**/*.jpg"
+    - "!**/*.gif"
+    - "!**/*.lock"
+  path_instructions:
+    - path: "**/*.vue"
+      instructions: "Ensure that Vue components follow best practices as per the Vue Style Guide[](https://vuejs.org/style-guide/). Check for proper prop definitions, use of computed properties, and adherence to reactivity rules."
+    - path: "**/*.js"
+      instructions: "Review JavaScript code for modern ES6+ syntax, proper error handling, and efficient use of asynchronous operations."
+    - path: "**/*.ts"
+      instructions: "Ensure TypeScript code is type-safe, with all variables and functions properly typed. Check for correct use of generics and interfaces."
